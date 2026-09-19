@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PixelBillboard — Own a Pixel. Get Seen.</title>
+<meta name="description" content="Buy pixels for $1 and put your company in front of the world.">
+<style>
+:root{--bg:#070914;--panel:#0e1222;--panel2:#13182b;--text:#f6f7fb;--muted:#9aa3bd;--accent:#7c5cff;--accent2:#22d3ee;--line:#252b43}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#202450 0,#070914 42%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 22px}
+nav{height:74px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.logo{font-weight:900;letter-spacing:-.04em;font-size:21px}.logo span{color:var(--accent2)}
+.navlinks{display:flex;gap:22px;color:var(--muted);font-size:14px}.navlinks a{text-decoration:none}.navlinks a:hover{color:#fff}
+.hero{text-align:center;padding:72px 0 42px}.eyebrow{display:inline-flex;gap:8px;align-items:center;background:#171b31;border:1px solid #30375a;border-radius:999px;padding:7px 12px;color:#b9c2e0;font-size:12px;font-weight:700}
+h1{font-size:clamp(42px,7vw,76px);line-height:.98;letter-spacing:-.06em;margin:18px auto 18px;max-width:850px}
+h1 em{font-style:normal;background:linear-gradient(90deg,#fff,#a99aff,#63e7f4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:650px;margin:auto;color:var(--muted);font-size:18px;line-height:1.6}
+.ctas{display:flex;justify-content:center;gap:12px;margin-top:28px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:linear-gradient(135deg,var(--accent),#9c7cff);color:white}.secondary{background:#151a2d;border:1px solid #303750;color:#fff}
+.stats{display:flex;justify-content:center;gap:50px;margin:38px 0;color:var(--muted);font-size:13px}.stats b{display:block;color:#fff;font-size:22px;margin-bottom:2px}
+.section{padding:30px 0 80px}.panel{background:rgba(14,18,34,.88);border:1px solid var(--line);border-radius:22px;box-shadow:0 25px 70px rgba(0,0,0,.35);overflow:hidden}
+.toolbar{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}.toolbar h2{font-size:16px;margin:0}.hint{font-size:12px;color:var(--muted)}
+.billboard-wrap{padding:18px;overflow:auto;background:#090c18}.grid{display:grid;grid-template-columns:repeat(100,8px);grid-auto-rows:8px;width:max-content;min-width:800px;cursor:crosshair;margin:auto;background:#0a0d18}
+.cell{width:8px;height:8px;background:#111629;border-right:1px solid rgba(255,255,255,.025);border-bottom:1px solid rgba(255,255,255,.025)}
+.cell:hover{outline:1px solid white;z-index:2}.cell.owned{background:var(--c,#6d5ce7)}
+.legend{padding:12px 18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.buybar{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 18px;background:#11162a;border-top:1px solid var(--line);flex-wrap:wrap}.total{font-size:22px;font-weight:900}.total small{font-size:12px;color:var(--muted);font-weight:500}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}.card{padding:24px;background:#0e1222;border:1px solid var(--line);border-radius:18px}.card h3{margin:0 0 8px}.card p{color:var(--muted);line-height:1.55;font-size:14px}
+footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;place-items:center;padding:20px;z-index:10}.modal.show{display:grid}.dialog{width:min(520px,100%);background:#101528;border:1px solid #303852;border-radius:20px;padding:24px;box-shadow:0 30px 100px #000}
+.dialog h2{margin-top:0}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:12px;color:#aeb7d0}.field input,.field textarea,.field select{width:100%;background:#090d1b;border:1px solid #303750;color:white;border-radius:10px;padding:11px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.close{float:right;background:none;border:0;color:#9aa3bd;font-size:22px;cursor:pointer}.note{font-size:12px;color:#8892ae;line-height:1.5}.success{display:none;text-align:center;padding:25px}.success.show{display:block}.success .big{font-size:44px}
+@media(max-width:760px){.navlinks{display:none}.hero{padding-top:50px}.stats{gap:25px}.cards{grid-template-columns:1fr}.grid{grid-template-columns:repeat(100,6px);grid-auto-rows:6px}.cell{width:6px;height:6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><div class="logo">PIXEL<span>BILLBOARD</span></div><div class="navlinks"><a href="#billboard">Billboard</a><a href="#how">How it works</a><a href="#buy">Buy pixels</a></div></nav>
+
+<header class="hero">
+<div class="eyebrow">● 1,000,000 pixels available</div>
+<h1>Own a piece of the internet.<br><em>One pixel. One dollar.</em></h1>
+<p class="sub">Give your company a tiny piece of the world's biggest digital billboard. Buy pixels, display your brand, and turn every square into a clickable ad.</p>
+<div class="ctas"><a class="btn primary" href="#billboard">Buy pixels</a><a class="btn secondary" href="#how">How it works</a></div>
+<div class="stats"><div><b>$1</b>per pixel</div><div><b>1M</b>pixels total</div><div><b>∞</b>creative possibilities</div></div>
+</header>
+
+<section class="section" id="billboard">
+<div class="panel">
+<div class="toolbar"><h2>THE PIXEL BILLBOARD</h2><div class="hint">Click or drag across the grid to select pixels</div></div>
+<div class="billboard-wrap"><div class="grid" id="grid" aria-label="Interactive pixel billboard"></div></div>
+<div class="legend"><span>Dark = available &nbsp; • &nbsp; Purple = selected &nbsp; • &nbsp; Colored = owned</span><span id="selectedText">0 pixels selected</span></div>
+<div class="buybar"><div><div class="total">$<span id="total">0</span></div><small class="hint">Your selection</small></div><button class="btn primary" id="buyBtn">Buy selected pixels</button></div>
+</div>
+</section>
+
+<section class="section" id="how">
+<div class="cards">
+<div class="card"><h3>1. Pick your space</h3><p>Select any available pixels on the billboard. Small logo, giant message, or something creative — you choose the footprint.</p></div>
+<div class="card"><h3>2. Add your brand</h3><p>Enter your company name, website, and ad color. In the full version, you can upload artwork that is automatically fitted to your selected area.</p></div>
+<div class="card"><h3>3. Go live</h3><p>Complete checkout and your pixels become your ad. Visitors can click your area to visit your company website.</p></div>
+</div>
+</section>
+
+<section class="section" id="buy"><div class="panel" style="padding:26px">
+<h2 style="margin-top:0">Ready to claim your pixels?</h2>
+<p class="sub" style="margin:0;max-width:700px;font-size:15px">Start by selecting an area above. This prototype includes the complete selection and ad setup flow. Connect Stripe on the server to accept real payments.</p>
+</div></section>
+
+<footer><span>© 2026 PixelBillboard</span><span>Own a pixel. Get seen.</span></footer>
+</div>
+
+<div class="modal" id="modal"><div class="dialog">
+<button class="close" id="close">×</button>
+<div id="formView">
+<h2>Set up your advertisement</h2><p class="note"><span id="count2">0</span> pixels selected · Total: <b>$<span id="total2">0</span></b></p>
+<div class="field"><label>Company name</label><input id="company" placeholder="Acme Inc."></div>
+<div class="field"><label>Website URL</label><input id="url" placeholder="https://example.com"></div>
+<div class="row"><div class="field"><label>Ad color</label><input id="color" type="color" value="#7c5cff" style="height:43px;padding:3px"></div><div class="field"><label>Ad message</label><input id="message" placeholder="Your brand here"></div></div>
+<p class="note">Demo checkout: no payment is processed. In production, this button should create a Stripe Checkout Session on your server.</p>
+<button class="btn primary" style="width:100%;margin-top:8px" id="checkout">Continue to secure checkout →</button>
+</div>
+<div class="success" id="success"><div class="big">✓</div><h2>Your pixels are reserved!</h2><p class="note">This demo saved the advertisement locally. Connect Stripe and a database to make purchases permanent.</p><button class="btn secondary" id="done">Back to billboard</button></div>
+</div></div>
+
+<script>
+const grid=document.getElementById('grid'), totalEl=document.getElementById('total'), selectedText=document.getElementById('selectedText');
+let selected=new Set(), dragging=false, last=null;
+const owned=JSON.parse(localStorage.getItem('pixelOwned')||'{}');
+
+for(let i=0;i<10000;i++){
+ const c=document.createElement('div'); c.className='cell'; c.dataset.i=i;
+ if(owned[i]){c.classList.add('owned');c.style.setProperty('--c',owned[i].color);c.title=owned[i].company}
+ c.addEventListener('pointerdown',e=>{dragging=true;last=i;toggle(i,e.shiftKey)});
+ c.addEventListener('pointerenter',e=>{if(dragging && last!==i){toggle(i,true);last=i}});
+ grid.appendChild(c);
+}
+window.addEventListener('pointerup',()=>dragging=false);
+function toggle(i,add){
+ if(owned[i]) return;
+ const c=grid.children[i];
+ if(selected.has(i)) {selected.delete(i);c.style.background='';c.classList.remove('selected')}
+ else {selected.add(i);c.classList.add('selected');c.style.background='#7c5cff'}
+ update();
+}
+function update(){totalEl.textContent=selected.size;selectedText.textContent=`${selected.size} pixel${selected.size===1?'':'s'} selected`}
+const modal=document.getElementById('modal');
+document.getElementById('buyBtn').onclick=()=>{
+ if(!selected.size){alert('Select at least one available pixel first.');return}
+ document.getElementById('count2').textContent=selected.size;document.getElementById('total2').textContent=selected.size;modal.classList.add('show')
+};
+document.getElementById('close').onclick=()=>modal.classList.remove('show');
+document.getElementById('checkout').onclick=()=>{
+ const company=document.getElementById('company').value.trim()||'Anonymous advertiser';
+ const color=document.getElementById('color').value;
+ const url=document.getElementById('url').value.trim();
+ selected.forEach(i=>{owned[i]={company,color,url};const c=grid.children[i];c.classList.remove('selected');c.classList.add('owned');c.style.background=color;c.style.setProperty('--c',color);c.title=company});
+ localStorage.setItem('pixelOwned',JSON.stringify(owned));
+ selected.clear();update();document.getElementById('formView').style.display='none';document.getElementById('success').classList.add('show');
+};
+document.getElementById('done').onclick=()=>{document.getElementById('success').classList.remove('show');document.getElementById('formView').style.display='block';modal.classList.remove('show')};
+</script>
+</body>
+</html>
